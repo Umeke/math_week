@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Басты бет</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50; /* Жасыл түс */
+            color: white; /* Мәтіннің ақ түсі */
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        header a {
+            color: #ffd700; /* Сары түсті сілтемелер */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .container h2 {
+            color: #333;
+        }
+        .container p {
+            color: #666;
+            font-size: 16px;
+        }
+        .nav {
+            margin-top: 20px;
+        }
+        .nav a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .nav a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Басты бет</h1>
+        {% if user.is_authenticated %}
+            <p>Қош келдіңіз, {{ user.username }}!</p>
+            <p>Жалпы балл: {{ user.score }}</p>
+            <a href="{% url 'users:logout' %}">Шығу</a>
+        {% else %}
+            <a href="{% url 'users:login' %}">Кіру</a> |
+            <a href="{% url 'users:register' %}">Тіркелу</a>
+        {% endif %}
+    </header>
+    <div class="container">
+        <h2>Қош келдіңіз!</h2>
+        <p>Бұл бет сіздің жобаңыздың негізгі интерфейсі. Мұнда пайдаланушылар төмендегі сілтемелер арқылы көшуге болады:</p>
+        <div class="nav">
+            <a href="{% url 'users:no' %}">Есептер</a>
+            <a href="{% url 'users:no' %}">Менің профилім</a>
+            <a href="{% url 'problems:leaderboard' %}">Көшбасшылар тізімі</a>
+        </div>
+    </div>
+</body>
+</html>
