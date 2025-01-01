@@ -19,33 +19,36 @@ from .models import Problem, Submission
 from django.contrib.auth.decorators import login_required
 
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Problem, Submission
+
 @login_required
 def submit_answer(request, problem_id):
-    problem = get_object_or_404(Problem, id=problem_id)
+    problem = Problem.objects.get(id=problem_id)
+    user = request.user
 
-    if request.method == "POST":
-        user_answer = request.POST.get('answer', '').strip()
-
-        # Тексеру: дұрыс жауап па?
-        is_correct = str(user_answer) == problem.correct_answer
-
-        # Жауапты сақтау
-        submission = Submission.objects.create(
-            user=request.user,
-            problem=problem,
-            submitted_answer=user_answer,
-            is_correct=is_correct
-        )
-
-        # Дұрыс жауап болса, балл қосу
-        if is_correct:
-            request.user.score += 100  # 100 балл қосу
-            request.user.save()
-            messages.success(request, "Дұрыс жауап! Сізге 100 балл қосылды.")
-        else:
-            messages.error(request, "Қате жауап. Қайта көріңіз.")
-
+    # Бұрын шешілгенін тексеру
+    if Submission.objects.filter(user=user, problem=problem, is_correct=True).exists():
+        messages.error(request, "Сіз бұл есепті бұрын дұрыс шештіңіз. Қайтадан балл ала алмайсыз.")
         return redirect('problems:problem_list')
+
+    if request.method == 'POST':
+        answer = request.POST.get('answer')
+
+        # Дұрыс жауапты тексеру
+        is_correct = answer.strip() == problem.correct_answer.strip()
+        Submission.objects.create(user=user, problem=problem, submitted_answer=answer, is_correct=is_correct)
+
+        if is_correct:
+            user.score += 100  # Тек бірінші рет шешкен кезде 100 балл қосылады
+            user.save()
+            messages.success(request, "Жауабыңыз дұрыс! 100 балл қосылды.")
+        else:
+            messages.error(request, "Жауабыңыз қате. Қайта көріңіз.")
+
+    return redirect('problems:problem_list')
+
 
 
 from django.shortcuts import render

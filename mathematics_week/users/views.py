@@ -7,7 +7,12 @@ from django.contrib.auth import login
 
 from django.shortcuts import render, redirect
 from .forms import SimpleUserCreationForm
+def home(request):
+    return render(request, 'users/home.html')
 
+from .forms import SimpleUserCreationForm
+def no_view(request):
+    return render(request, 'users/no.html')
 
 from problems.models import Problem
 def register_view(request):
@@ -58,3 +63,14 @@ def profile_view(request):
     # Пайдаланушының шешкен есептерін алу
     submissions = Submission.objects.filter(user=request.user)
     return render(request, 'users/profile.html', {'user': request.user, 'submissions': submissions})
+
+
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
+
+def logout_view(request):
+    # GET немесе POST әдістерін қолдау
+    if request.method in ["POST", "GET"]:
+        logout(request)
+        return HttpResponseRedirect('/')
+    return HttpResponseNotAllowed(['POST', 'GET'])
