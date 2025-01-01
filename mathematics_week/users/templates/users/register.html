@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тіркелу</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .register-container h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .register-container form label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .register-container form input {
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .register-container form button {
+            padding: 0.75rem;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-container form button:hover {
+            background-color: #218838;
+        }
+
+        .register-container p {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .register-container p a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .register-container p a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Тіркелу</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Тіркелу</button>
+        </form>
+        <p>Аккаунтыңыз бар ма? <a href="{% url 'users:login' %}">Кіру</a></p>
+    </div>
+</body>
+</html>

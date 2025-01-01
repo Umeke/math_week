@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #444;
+            font-size: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        li p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            color: #ffffff;
+            background-color: #007BFF;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .empty-message {
+            text-align: center;
+            font-size: 16px;
+            color: #777;
+            margin: 20px 0;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Профиль</h1>
+        <p><strong>Сәлем, {{ user.username }}!</strong></p>
+        <p><strong>Жалпы балл:</strong> {{ user.score }}</p>
+
+        <h2>Шешкен есептер:</h2>
+        {% if submissions %}
+            <ul>
+                {% for submission in submissions %}
+                <li>
+                    <p><strong>Есеп:</strong> {{ submission.problem.question }}</p>
+                    <p><strong>Жауабыңыз:</strong> {{ submission.submitted_answer }}</p>
+                    <p><strong>Дұрыс па:</strong> {{ submission.is_correct|yesno:"Иә,Жоқ" }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-message">Сіз әлі есеп шешкен жоқсыз.</p>
+        {% endif %}
+
+        <div class="button-container">
+            <a href="{% url 'problems:problem_list' %}">Есептерге оралу</a>
+            <a href="{% url 'users:logout' %}">Шығу</a>
+        </div>
+    </div>
+</body>
+</html>

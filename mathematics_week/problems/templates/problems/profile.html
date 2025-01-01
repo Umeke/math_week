@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li p {
+            margin: 5px 0;
+        }
+        a {
+            display: inline-block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Профиль</h1>
+    <p>Сәлем, <strong>{{ user.username }}</strong>!</p>
+    <p><strong>Жалпы балл:</strong> {{ user.score }}</p>
+    <h2>Шешкен есептер:</h2>
+    {% if submissions %}
+        <ul>
+            {% for submission in submissions %}
+            <li>
+                <p><strong>Есеп:</strong> {{ submission.problem.question }}</p>
+                <p><strong>Жауабыңыз:</strong> {{ submission.submitted_answer }}</p>
+                <p><strong>Дұрыс па:</strong> {{ submission.is_correct|yesno:"Иә,Жоқ" }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Сіз әлі есеп шешкен жоқсыз.</p>
+    {% endif %}
+    <div class="button-container">
+        <a href="{% url 'problems:problem_list' %}">Есептерге оралу</a> |
+        <a href="{% url 'users:logout' %}">Шығу</a>
+    </div>
+</body>
+</html>
