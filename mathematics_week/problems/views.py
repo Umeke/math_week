@@ -43,6 +43,7 @@ def submit_answer(request, problem_id):
         if is_correct:
             user.score += 100  # Тек бірінші рет шешкен кезде 100 балл қосылады
             user.save()
+
             messages.success(request, "Жауабыңыз дұрыс! 100 балл қосылды.")
         else:
             messages.error(request, "Жауабыңыз қате. Қайта көріңіз.")
