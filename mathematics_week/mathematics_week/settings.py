@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'user1',      # Database user
         'PASSWORD': '123456789m',  # Database password
         'HOST': 'localhost',  # Host (use 'localhost' for the container mapped to the host)
-        'PORT': '5432',       # Port exposed by your PostgreSQL container
+        'PORT': '8081',       # Port exposed by your PostgreSQL container
     }
 }
 
