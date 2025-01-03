@@ -7,12 +7,20 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Problem
 
+from django.shortcuts import render
+from .models import Problem, Submission
+
 @login_required
 def problem_list(request):
-    problems = Problem.objects.filter(grade=request.user.grade, admin_only=False).exclude(solved_by=request.user)
+    user = request.user
+
+    # Пайдаланушы шешкен есептерді алу
+    solved_problems = Submission.objects.filter(user=user, is_correct=True).values_list('problem_id', flat=True)
+
+    # Шешілмеген есептерді көрсету
+    problems = Problem.objects.filter(grade=user.grade).exclude(id__in=solved_problems)
+
     return render(request, 'problems/problems.html', {'problems': problems})
-
-
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from .models import Problem, Submission
@@ -43,6 +51,7 @@ def submit_answer(request, problem_id):
         if is_correct:
             user.score += 100  # Тек бірінші рет шешкен кезде 100 балл қосылады
             user.save()
+
             messages.success(request, "Жауабыңыз дұрыс! 100 балл қосылды.")
         else:
             messages.error(request, "Жауабыңыз қате. Қайта көріңіз.")

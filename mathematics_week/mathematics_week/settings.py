@@ -75,12 +75,20 @@ WSGI_APPLICATION = 'mathematics_week.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'math_week',  # Database name
+        'USER': 'user1',      # Database user
+        'PASSWORD': '123456789m',  # Database password
+        'HOST': 'localhost',  # Host (use 'localhost' for the container mapped to the host)
+        'PORT': '5432',       # Port exposed by your PostgreSQL container
     }
 }
+
+
 
 
 # Password validation
@@ -139,3 +147,8 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.ERROR: 'danger',
 }
+
+import os
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Статикалық файлдар сақталатын каталог
